@@ -34,4 +34,6 @@ public class Cuenta {
             saldo += cantidad;
         }
     }
+    public void transferir(){
+    }
 }

@@ -29,7 +29,7 @@ public class CajeroView {
         System.out.println("2.- Retirar ");
         System.out.println("3.- Depositar ");
         System.out.println("4.- Transferir ");
-        System.out.println("9.- Salir ");
+        System.out.println("5.- Salir ");
     }
 
     public int leerOpcion(){

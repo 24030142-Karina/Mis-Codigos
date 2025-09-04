@@ -1,12 +1,11 @@
 
-package com.mycompany.cajeroautomatico;
+package views;
 
 import Controllers.CajeroController;
 import models.CajeroModel;
 
 public class CajeroAutomatico {
-
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         CajeroModel model = new CajeroModel();
         CajeroView view = new CajeroView();

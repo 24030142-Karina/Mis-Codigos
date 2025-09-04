@@ -1,50 +1,90 @@
-package models;
-import java.util.HashMap;
-import java.util.Map;
+package Controllers;
 
-public class CajeroModel {
-    private Map<String , Cuenta> cuentas;
-    private Cuenta cuentaActual;
-    public CajeroModel(){
-        cuentas = new HashMap<>();
-        inicializarCuentas();
-    }
-    private void inicializarCuentas(){
-        cuentas.put("12345",
-                new Cuenta("12345",
-                        "1111",
-                        500000.80,
-                        "Juan N"));
-        cuentas.put("54321",new Cuenta("54321","0000",4522,"Maria Guadalupe N"));
+import models.CajeroModel;
+import views.CajeroView;
+
+public class CajeroController {
+    private CajeroModel model;
+    private CajeroView view;
+    private boolean sistemaActivo;
+
+    public CajeroController(CajeroModel model, CajeroView view){
+        this.model = model;
+        this.view = view;
+        this.sistemaActivo = true;
     }
 
-    public boolean autenticar(String numeroCuenta, String pin){
-        Cuenta cuenta = cuentas.get(numeroCuenta);
-        if( cuenta != null && cuenta.validarPin(pin) ){
-            this.cuentaActual = cuenta;
-            return true;
+    public void iniciarSistema(){
+        view.mostrarBienvenida();
+        while (sistemaActivo){
+            if( autenticarUsuario() ){
+                ejecutarMenuPrincipal();
+            }else{
+                view.mostrarMensaje("Credenciales incorrectas");
+            }
         }
-        return false;
+        view.mostrarMensaje("Gracias por usar nuestro cajero");
     }
-    public Cuenta getCuentaActual(){
-        return this.cuentaActual;
+    private boolean autenticarUsuario(){
+        String numeroCuenta = view.solicitarNumeroCuenta();
+        String pin = view.solicitarPin();
+        return model.autenticar(numeroCuenta,pin);
     }
-    public double consultarSaldo(){
-        return this.cuentaActual != null ? cuentaActual.getSaldo():0;
-    }
-    public boolean realizarRetiro(double cantidad){
-        return cuentaActual != null && cuentaActual.retirar(cantidad);
-    }
-    public boolean realizarDeposito(double cantidad){
-        if(cuentaActual != null && cantidad > 0){
-            cuentaActual.depositar(cantidad);
-            return true;
+    private void ejecutarMenuPrincipal(){
+        boolean sessionActiva = true;
+        while (sessionActiva){
+            view.mostrarMenuPrincipal(model.getCuentaActual().getTitular());
+            int opcion = view.leerOpcion();
+            switch (opcion){
+                case 1:
+                    consultarSaldo();
+                break;
+                case 2:
+                    this.realizarRetiro();
+                break;
+                case 3:
+                    realizarDeposito();
+                break;
+                case 4:
+                    realizarTransferencia();
+                break;
+                case 5:
+                    break;
+                default:
+                    break;
+            }
         }
-        return false;
-    }
-    public boolean cuentaExistente(String numeroCuenta){
-        return cuentas.containsKey(numeroCuenta);
-    }
-    // definir el metodo para transferir
 
+
+    }
+
+    public void consultarSaldo(){
+        double saldo = model.consultarSaldo();
+        view.mostrarSaldo(saldo);
+    }
+    public void realizarRetiro(){
+        double cantidad = view.solicitarCantidad("Retirar");
+        if( cantidad <= 0 ){
+            view.mostrarMensaje("Error en la cantidad");
+            return;
+        }
+        if( model.realizarRetiro(cantidad) ){
+            view.mostrarMensaje("Retiro exitoso de "+cantidad);
+        }else{
+            view.mostrarMensaje("Fondos insuficientes");
+        }
+    }
+
+    public void realizarDeposito(){
+        double cantidad = view.solicitarCantidad("Deposito");
+        if( cantidad <= 0){
+            view.mostrarMensaje("Error en la cantidad");
+            return;
+        }
+        if( model.realizarDeposito(cantidad) ){
+            view.mostrarMensaje("Deposito exitoso por la cantidad "+cantidad);
+        }else{
+            view.mostrarMensaje("Error al procesar el deposito");
+        }
+    }
 }
