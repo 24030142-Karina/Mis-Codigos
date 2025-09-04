@@ -45,5 +45,21 @@ public class CajeroModel {
     public boolean cuentaExistente(String numeroCuenta){
         return cuentas.containsKey(numeroCuenta);
     }
-
+    public boolean realizarTransferencia(String numeroCuentaDestino, double cantidad){
+        if (cuentaActual==null || cantidad<=0){
+            return false;
+        }
+        if (cuentaActual.getNumeroCuenta().equals(numeroCuentaDestino)){
+            return false;
+        }
+        cuentaDestino = cuentas.get(numeroCuentaDestino);
+        if (cuentaDestino == null){
+            return false;
+        }
+        
+        if (cuentaActual.getSaldo() < cantidad){
+            return false;
+        }
+        return false;
+    }
 }
