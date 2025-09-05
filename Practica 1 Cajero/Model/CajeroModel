@@ -1,4 +1,5 @@
 package models;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +46,16 @@ public class CajeroModel {
     public boolean cuentaExistente(String numeroCuenta){
         return cuentas.containsKey(numeroCuenta);
     }
+
+    /**
+    - Realiza una transferencia de cuenta a cuenta
+    - "Cantidad" Cantidad de dinero a transferir
+    - "numeroCuentasDestino" número de la cuenta donde se transferira el dinero
+    - "return true" si la operacion fue exitosa
+    - "return false" si la operacion no se pudo completar
+    - @author Karina Ramirez
+    */
+
     public boolean realizarTransferencia(String numeroCuentaDestino, double cantidad){
         if (cuentaActual == null || cantidad <= 0){
             return false;
@@ -52,14 +63,11 @@ public class CajeroModel {
         if (cuentaActual.getNumeroCuenta().equals(numeroCuentaDestino)){
             return false;
         }
-        cuentaDestino = cuentas.get(numeroCuentaDestino);
+        cuenta cuentaDestino = cuentas.get(numeroCuentaDestino);
         if (cuentaDestino == null){
             return false;
         }
         
-        if (cuentaActual.getSaldo() < cantidad){
-            return false;
-        }
-        return false;
+        return cuentaActual.transferir(cuentaDestino, cantidad);
     }
 }

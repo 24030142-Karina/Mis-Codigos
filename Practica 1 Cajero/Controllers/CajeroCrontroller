@@ -30,6 +30,12 @@ public class CajeroController {
         String pin = view.solicitarPin();
         return model.autenticar(numeroCuenta,pin);
     }
+
+    /**
+    - Metodo "metodo principal" para elegir la opcion que se desea ejecutar
+    - @author Karina Ramirez
+    */
+
     private void ejecutarMenuPrincipal(){
         boolean sessionActiva = true;
         while (sessionActiva){
@@ -49,14 +55,20 @@ public class CajeroController {
                     realizarTransferencia();
                 break;
                 case 5:
+                    sesionActiva = false;
+                    view.mostrarMensaje("Sesion cerrada");
                     break;
                 default:
                     break;
+                    view.mostrarErrorOpcionInvalida();
             }
         }
-
-
     }
+
+    /**
+    - Metodo para realizar las operaciones
+    - @author Karina Ramirez
+    */
 
     public void consultarSaldo(){
         double saldo = model.consultarSaldo();
@@ -86,5 +98,29 @@ public class CajeroController {
         }else{
             view.mostrarMensaje("Error al procesar el deposito");
         }
+    }
+
+    
+    public void realizarTransferencia(){
+        String cuentaDestino = view.solicitarCuentaDestino();
+        double cantidad = view.solicitarCantidad("Transferir");
+           
+            if(cantidad <= 0){
+                view.mostrarMensaje("Cantidad Erronea, vuelve a intentarlo");
+                return;
+            }
+            if(!model.cuentaExistente(cuentaDestino)){
+                view.mostrarErrorCuentaNoExistente();
+                return;
+            }
+            if(model.getCuentaActual().getNumeroCuenta().equals(cuentaDestino)){
+                view.mostrarErrorMismaCuenta();
+                return;
+            }
+            if(model.realizarTransferencia(cuentaDestino, cantidad)){
+                view.mostrarTransferenciaExitosa(cantidad, cuentaDestino);
+            }else{
+                view.mostrarErrorSaldoInsuficiente();
+            }
     }
 }

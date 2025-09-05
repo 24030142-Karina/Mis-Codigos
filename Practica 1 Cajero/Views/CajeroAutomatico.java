@@ -11,6 +11,12 @@ public class CajeroAutomatico {
         CajeroView view = new CajeroView();
         CajeroController controller = new CajeroController(model,view);
         controller.iniciarSistema();
+        
+        /**
+        - Esto asegura que si cierre el scanner al final
+        - @author Karina Ramirez
+         */
+        view.cerrarScanner();
     }
 
 }

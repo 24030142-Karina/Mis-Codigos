@@ -18,10 +18,28 @@ public class Cuenta {
     public String getPin() {return pin;}
     public double getSaldo() {return saldo;}
     public String getTitular() {return titular;}
-    // reglas de negocio
+
+
+    /**
+    - Valida si el PIN ingresado coincide con el PIN de la cuenta.
+    - "pinIngresado" es el Pin que se tiene que validar
+    - "return true" si el PIN es correcto
+    - "return false" si el PIN es incorrecto
+    - @author Karina Ramirez
+    */
+
     public boolean validarPin(String pinIngresado){
         return this.pin.equals(pinIngresado);
     }
+
+    /**
+    - Realiza un retiro de la cuenta si hay saldo suficiente
+    - "Cantidad" Cantidad de dinero a retirar
+    - "return true" si el retiro fue exitoso
+    - "return false" si no hay saldo suficiente
+    - @author Karina Ramirez
+    */
+
     public boolean retirar( double cantidad){
         if( cantidad > 0 && cantidad <= this.saldo ){
             saldo -= cantidad;
@@ -29,11 +47,36 @@ public class Cuenta {
         }
         return false;
     }
+
+    /**
+    - Realiza un deposito a la cuenta del usuario
+    - "Cantidad" Cantidad de dinero que se va a depositar
+    - @author Karina Ramirez
+    */
+
     public void depositar(double cantidad){
         if(cantidad > 0){
             saldo += cantidad;
         }
     }
+
+    /**
+    - Realiza una tranferencia de la cuenta del usuario a otra
+    - "CuentaDestino" Cual es la cuenta a la que se le va a tranferir
+    - "cantidad" Cantidad de dinero que se va a transferir
+    - "return true" si la transferencia fue exitosa
+    - "return false" si la operacion fue fallida
+    - @author Karina Ramirez
+    */
+
     public void transferir(){
+        if (cantidad <= 0 || cuentaDestino, double cantidad){
+            return false;
+        }
+        if(retirar(cantidad)){
+            cuentaDestino.depositar(cantidad);
+            return true;
+        }
+        return false;
     }
 }
