@@ -1,13 +1,28 @@
 package models;
 
-public class Cuenta {
+    /**
+    - Se ah transformado la clase "cuenta" a programacion generica
+    - @author Karina Ramirez
+    */
+
+    public class Cuenta<T extends Number> {
     private String numeroCuenta;
     private String pin;
-    private double saldo;
+    private T saldo;
     private String titular;
+
+    /**
+    - Cosntructor de la clase Cuenta con programacion generica
+    - "numeroCuenta" es el numero de identificacion de la cuenta
+    - "pin" es el PIN de segurodad de la cuenta
+    - "saldoInicial" parametro para el saldo inicial de la cuenta ya sea double, int, float
+    - "titular" Nombre del titular de la cuenta
+    - @author Karina Ramirez
+    */
+
     public Cuenta( String numeroCuenta,
                    String pin,
-                   double saldoInicial,
+                   T saldoInicial,
                    String titular ){
         this.numeroCuenta = numeroCuenta;
         this.pin = pin;
@@ -16,9 +31,18 @@ public class Cuenta {
     }
     public String getNumeroCuenta() {return numeroCuenta;}
     public String getPin() {return pin;}
-    public double getSaldo() {return saldo;}
+    public T getSaldo() {return saldo;}
     public String getTitular() {return titular;}
+    
+    /**
+    - Establece el saldo de la cuenta
+    - "saldo" es el parametro para el saldo nuevo saldo de la cuenta
+    - @author Karina Ramirez
+    */
 
+    public void setSaldo(T saldo){
+        this.saldo = saldo;
+    }
 
     /**
     - Valida si el PIN ingresado coincide con el PIN de la cuenta.
@@ -40,9 +64,10 @@ public class Cuenta {
     - @author Karina Ramirez
     */
 
-    public boolean retirar( double cantidad){
-        if( cantidad > 0 && cantidad <= this.saldo ){
-            saldo -= cantidad;
+    public boolean retirar( T cantidad){
+        if( cantidad.doubleValue() > 0 && cantidad.doubleValue() <= this.saldo.doubleValue() ){
+            double nuevoSaldo = this.saldo.doubleValue() - cantidad.doubleValue();
+            this.saldo = convertirSaldo(nuevoSaldo);
             return true;
         }
         return false;
@@ -54,9 +79,10 @@ public class Cuenta {
     - @author Karina Ramirez
     */
 
-    public void depositar(double cantidad){
-        if(cantidad > 0){
-            saldo += cantidad;
+    public void depositar(T cantidad){
+        if(cantidad.doubleValue() > 0){
+            double nuevoSaldo = this.saldo.doubleValue() + cantidad.doubleValue();
+            this.saldo = convertirSaldo(nuevoSaldo);
         }
     }
 
@@ -69,8 +95,8 @@ public class Cuenta {
     - @author Karina Ramirez
     */
 
-    public void transferir(){
-        if (cantidad <= 0 || cuentaDestino, double cantidad){
+    public boolean transferir(cuenta<T> cuentaDestino, T cantidad){
+        if (cantidad.doubleValue() <= 0 || cuentaDestino == null || this == cuentaDestino){
             return false;
         }
         if(retirar(cantidad)){
@@ -78,5 +104,42 @@ public class Cuenta {
             return true;
         }
         return false;
+    }
+
+    /**
+    - Convierte un valor double al tipo generico T
+    - "valor" parametro del valor double a convertir
+    - "return valor" esta convertido al tipo T
+    - @author Karina Ramirez
+    */
+
+    private T convertirSaldo(double valor){
+        if(saldo instanceof double){
+            return (T) double.value0f(valor);
+        } else if (saldo instanceof Integer){
+            return(T) Integer.Value0f((int) valor);
+        }else if (saldo instanceof float){
+            return (T) float.value0f((float)valor);
+        }else if (saldo instanceof Long){
+            return (T) Long.value0f((long)valor);
+        }else{
+            return (T) double.Value0f(valor);
+        }
+    }
+
+    /**
+    - Representacion en String de la cuenta
+    - "return String" informacion de la cuenta
+    - @author Karina Ramirez
+    */
+
+    @Override
+    public String toString(){
+        return "Cuenta{"+
+                "numeroCuenta="+ numeroCuenta+"\"+
+                ", Saldo="+saldo+
+                ", titular="+titular+"\"+
+                ", tipo="+saldo.getClass().getSimpleName()+
+                "}";
     }
 }
