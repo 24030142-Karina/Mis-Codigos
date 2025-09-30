@@ -21,6 +21,6 @@ public class ConsultarSaldoStrategy implements OperacionStrategy {
     public boolean ejecutar() {
         double saldo = model.consultarSaldo();
         view.mostrarSaldo(saldo);
-        return true; // Siempre exitosa
+        return true; 
     }
 }

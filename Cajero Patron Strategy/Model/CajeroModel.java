@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CajeroModel {
-    private Map<String, Cuenta> cuentas;
-    private Cuenta cuentaActual;
+    private Map<String, Cuenta> cuentas; 
+    private Cuenta cuentaActual; 
     
     public CajeroModel(){
         cuentas = new HashMap<>();
@@ -14,12 +14,11 @@ public class CajeroModel {
     }
     
     private void inicializarCuentas(){
+        
         cuentas.put("12345",
-                new Cuenta("12345",
-                        "1111",
-                        500000.80,
-                        "Juan N"));
-        cuentas.put("54321",new Cuenta("54321","0000",4522,"Maria Guadalupe N"));
+                new Cuenta<Double>("12345", "1111", 500000.80, "Juan N"));
+        cuentas.put("54321", 
+                new Cuenta<Integer>("54321", "0000", 4522, "Maria Guadalupe N"));
     }
 
     public boolean autenticar(String numeroCuenta, String pin){
@@ -57,10 +56,9 @@ public class CajeroModel {
 
     /**
      * Realiza una transferencia de cuenta a cuenta
-     * @param numeroCuentaDestino número de la cuenta donde se transferira el dinero
-     * @param cantidad Cantidad de dinero a transferir
-     * @return true si la operacion fue exitosa, false si la operacion no se pudo completar
-     * @author Karina Ramirez
+     * numeroCuentaDestino número de la cuenta donde se transferira el dinero
+     * cantidad Cantidad de dinero a transferir
+     * true si la operacion fue exitosa, false si la operacion no se pudo completar
      */
     public boolean realizarTransferencia(String numeroCuentaDestino, double cantidad){
         if (cuentaActual == null || cantidad <= 0){

@@ -2,15 +2,20 @@
 package Controllers;
 
 import Model.CajeroModel;
+import Strategys.ConsultarSaldoStrategy;
+import Strategys.OperacionStrategy;
+import Strategys.RetiroStrategy;
+import Strategys.DepositoStrategy;
+import Strategys.TransferenciaStrategy;
 import Views.CajeroView;
-import Strategys.*;
+import strategys.*;
 
 public class CajeroController {
     private CajeroModel model;
     private CajeroView view;
     private boolean sistemaActivo;
     
-    // Patrón Strategy
+    // Contexto para el patrón Strategy
     private OperacionStrategy estrategiaActual;
 
     public CajeroController(CajeroModel model, CajeroView view){
@@ -38,16 +43,15 @@ public class CajeroController {
     }
 
     /**
-     * Método principal para elegir la opción que se desea ejecutar con patrón Strategy
-     * @author Karina Ramirez
+     * Método principal para elegir la opción que se desea ejecutar con el patrón Strategy 
      */
     private void ejecutarMenuPrincipal(){
-        boolean sessionActiva = true;
+        boolean sessionActiva = true; // CORREGIDO: estaba "sesionActiva" en el case 5
         while (sessionActiva){
             view.mostrarMenuPrincipal(model.getCuentaActual().getTitular());
             int opcion = view.leerOpcion();
             
-            // Configurar la estrategia según la opción seleccionada
+            
             configurarEstrategia(opcion);
             
             switch (opcion){
@@ -58,7 +62,7 @@ public class CajeroController {
                     ejecutarEstrategia();
                     break;
                 case 5:
-                    sessionActiva = false;
+                    sessionActiva = false; 
                     view.mostrarMensaje("Sesion cerrada");
                     break;
                 default:
@@ -68,10 +72,7 @@ public class CajeroController {
         }
     }
 
-    /**
-     * Configura la estrategia según la opción del menú
-     * @param opcion Opción seleccionada por el usuario
-     */
+    
     private void configurarEstrategia(int opcion) {
         switch (opcion) {
             case 1:
@@ -92,33 +93,11 @@ public class CajeroController {
         }
     }
 
-    /**
-     * Ejecuta la estrategia actual si está configurada
-     */
+    
     private void ejecutarEstrategia() {
         if (estrategiaActual != null) {
             view.mostrarCargando();
             estrategiaActual.ejecutar();
         }
-    }
-
-    public void consultarSaldo(){
-        configurarEstrategia(1);
-        ejecutarEstrategia();
-    }
-    
-    public void realizarRetiro(){
-        configurarEstrategia(2);
-        ejecutarEstrategia();
-    }
-
-    public void realizarDeposito(){
-        configurarEstrategia(3);
-        ejecutarEstrategia();
-    }
-    
-    public void realizarTransferencia(){
-        configurarEstrategia(4);
-        ejecutarEstrategia();
     }
 }

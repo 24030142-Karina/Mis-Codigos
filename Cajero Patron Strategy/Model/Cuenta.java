@@ -13,10 +13,11 @@ public class Cuenta<T extends Number> {
 
     /**
      * Constructor de la clase Cuenta con programacion generica
-     * numeroCuenta es el numero de identificacion de la cuenta
-     * pin es el PIN de seguridad de la cuenta
-     * saldoInicial parametro para el saldo inicial de la cuenta ya sea double, int, float
-     * titular Nombre del titular de la cuenta
+     * @param numeroCuenta es el numero de identificacion de la cuenta
+     * @param pin es el PIN de seguridad de la cuenta
+     * @param saldoInicial parametro para el saldo inicial de la cuenta ya sea double, int, float
+     * @param titular Nombre del titular de la cuenta
+     * @author Karina Ramirez
      */
     public Cuenta(String numeroCuenta, String pin, T saldoInicial, String titular){
         this.numeroCuenta = numeroCuenta;
@@ -32,7 +33,8 @@ public class Cuenta<T extends Number> {
     
     /**
      * Establece el saldo de la cuenta
-     * saldo es el parametro para el saldo nuevo saldo de la cuenta
+     * @param saldo es el parametro para el saldo nuevo saldo de la cuenta
+     * @author Karina Ramirez
      */
     public void setSaldo(T saldo){
         this.saldo = saldo;
@@ -40,8 +42,9 @@ public class Cuenta<T extends Number> {
 
     /**
      * Valida si el PIN ingresado coincide con el PIN de la cuenta.
-     * pinIngresado es el Pin que se tiene que validar
-     * true si el PIN es correcto, false si el PIN es incorrecto
+     * @param pinIngresado es el Pin que se tiene que validar
+     * @return true si el PIN es correcto, false si el PIN es incorrecto
+     * @author Karina Ramirez
      */
     public boolean validarPin(String pinIngresado){
         return this.pin.equals(pinIngresado);
@@ -49,8 +52,9 @@ public class Cuenta<T extends Number> {
 
     /**
      * Realiza un retiro de la cuenta si hay saldo suficiente
-     * cantidad Cantidad de dinero a retirar
-     * true si el retiro fue exitoso, false si no hay saldo suficiente
+     * @param cantidad Cantidad de dinero a retirar
+     * @return true si el retiro fue exitoso, false si no hay saldo suficiente
+     * @author Karina Ramirez
      */
     public boolean retirar(double cantidad){
         if( cantidad > 0 && cantidad <= this.saldo.doubleValue() ){
@@ -63,7 +67,8 @@ public class Cuenta<T extends Number> {
 
     /**
      * Realiza un deposito a la cuenta del usuario
-     * cantidad Cantidad de dinero que se va a depositar
+     * @param cantidad Cantidad de dinero que se va a depositar
+     * @author Karina Ramirez
      */
     public void depositar(double cantidad){
         if(cantidad > 0){
@@ -74,9 +79,10 @@ public class Cuenta<T extends Number> {
 
     /**
      * Realiza una transferencia de la cuenta del usuario a otra
-     * cuentaDestino Cual es la cuenta a la que se le va a transferir
-     * cantidad Cantidad de dinero que se va a transferir
-     * true si la transferencia fue exitosa, false si la operacion fue fallida
+     * @param cuentaDestino Cual es la cuenta a la que se le va a transferir
+     * @param cantidad Cantidad de dinero que se va a transferir
+     * @return true si la transferencia fue exitosa, false si la operacion fue fallida
+     * @author Karina Ramirez
      */
     public boolean transferir(Cuenta<T> cuentaDestino, double cantidad){
         if (cantidad <= 0 || cuentaDestino == null || this == cuentaDestino){
@@ -91,11 +97,13 @@ public class Cuenta<T extends Number> {
 
     /**
      * Convierte un valor double al tipo generico T
-     * valor parametro del valor double a convertir
-     * valor convertido al tipo T
+     * @param valor parametro del valor double a convertir
+     * @return valor convertido al tipo T
+     * @author Karina Ramirez
      */
     @SuppressWarnings("unchecked")
     private T convertirSaldo(double valor){
+        // CORREGIDO: instanceof con clases, no con primitivos
         if(saldo instanceof Double){
             return (T) Double.valueOf(valor);
         } else if (saldo instanceof Integer){
@@ -109,7 +117,11 @@ public class Cuenta<T extends Number> {
         }
     }
 
-    
+    /**
+     * Representacion en String de la cuenta
+     * @return String informacion de la cuenta
+     * @author Karina Ramirez
+     */
     @Override
     public String toString(){
         return "Cuenta{"+
