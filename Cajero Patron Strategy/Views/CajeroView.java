@@ -1,0 +1,151 @@
+
+package Views;
+
+import java.util.Scanner;
+
+public class CajeroView {
+    private Scanner scanner;
+    
+    public CajeroView(){
+        scanner = new Scanner(System.in);
+    }
+
+    public void mostrarBienvenida(){
+        System.out.println("=======================================");
+        System.out.println("Bienvenido al cajero automático del banco del bajio");
+        System.out.println("=======================================");
+    }
+    
+    public String solicitarNumeroCuenta(){
+        System.out.print("Ingresa tu número de cuenta: ");
+        return scanner.nextLine();
+    }
+    
+    public String solicitarPin(){
+        System.out.print("Ingresa tu PIN: ");
+        return scanner.nextLine();
+    }
+    
+    public void mostrarMenuPrincipal(String titular){
+        System.out.println("=======================================");
+        System.out.println("Bienvenid@ "+titular);
+        System.out.println("=======================================");
+        System.out.println("1.- Consultar saldo ");
+        System.out.println("2.- Retirar ");
+        System.out.println("3.- Depositar ");
+        System.out.println("4.- Transferir ");
+        System.out.println("5.- Salir ");
+        System.out.print("Selecciona una opción: ");
+    }
+
+    public int leerOpcion(){
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        }catch(NumberFormatException e){
+            return -1;
+        }
+    }
+    
+    public void mostrarSaldo(double saldo){
+        System.out.println("=======================================");
+        System.out.println("Tu saldo actual es: $"+saldo);
+        System.out.println("=======================================");
+    }
+
+    public double solicitarCantidad(String operacion){
+        System.out.print("Ingresa la cantidad a "+operacion+": ");
+        try {
+            return Double.parseDouble(scanner.nextLine());
+        }catch (NumberFormatException e){
+            mostrarError("Error, Porfavor ingresa un número valido");
+            return -1;
+        }
+    } 
+    
+    public String solicitarCuentaDestino(){
+        System.out.print("Ingresa el número de cuenta destino: ");
+        return scanner.nextLine();
+    }
+
+    //mensajes genericos de error y exito
+    public void mostrarExito(String mensaje){
+        System.out.println("¡Muy bien!, sigamos: "+mensaje);
+    }
+    
+    public void mostrarError(String mensaje){
+        System.out.println("Error, intente de nuevo porfavor "+mensaje);
+    }
+
+    //mensajes de exito de operaciones
+    public void mostrarRetiroExitoso(double cantidad){
+        System.out.printf("RETIRO EXITOSO:");
+        System.out.printf("\n Se retiraron $%.2f correctamente%n", cantidad);
+    }
+    
+    public void mostrarDepositoExitoso(double cantidad){
+        System.out.printf("DEPOSITO EXITOSO:");
+        System.out.printf("\n Se depositaron $%.2f correctamente%n", cantidad);
+    }
+    
+    public void mostrarTransferenciaExitosa(double cantidad, String cuentaDestino){
+        System.out.printf("TRANSFERENCIA EXITOSA:");
+        System.out.printf("\n Se transfirieron $%.2f correctamente a la cuenta %s%n", cantidad, cuentaDestino);
+    }
+    
+    public void mostrarAutentificacionExitosa(String titular){
+        System.out.printf("AUTENTICACION EXITOSA:");
+        System.out.printf("\n Buen dia, Sea bienvenido apreciable cliente: " + titular);
+    }
+    
+    // Mensajes de error de operaciones
+    public void mostrarErrorAutentificacion(){
+        System.out.println("Numero de cuenta invalido");
+    }
+    
+    public void mostrarErrorSaldoInsuficiente(){
+        System.out.println("Saldo insuficiente, no se puede realizar la operación");
+    }
+    
+    public void mostrarErrorCuentaNoExistente(){
+        System.out.println("Esta cuenta no existe");
+    }
+    
+    public void mostrarErrorMismaCuenta(){
+        System.out.println("No se puede transferir a la misma cuenta");
+    }
+    
+    public void mostrarErrorOpcionInvalida(){
+        System.out.println("Opcion no valida, porfavor selecciona otra opcion del menú");
+    }
+    
+    public void mostrarErrorSesionIniciada(){
+        System.out.println("Sesion no iniciada, Por favor inicia sesión");
+    }
+
+    //Mensaje general
+    public void mostrarMensaje(String mensaje){
+        System.out.println("===== "+mensaje);
+    }
+    
+    public void mostrarDespedida(){
+        System.out.println("===================================");
+        System.out.println("GRACIAS POR USAR NUESTRO SERVICIO");
+        System.out.println("Que tenga un buen día");
+        System.out.println("===================================");
+    }
+    
+    public void mostrarOperacionCancelada(){
+         System.out.println("Operacion Cancelada");
+    }
+    
+    public void mostrarCargando(){
+         System.out.println("Procesando...");
+    }
+
+    // cerrar el scanner
+    public void cerrarScanner(){
+        if(scanner != null){
+            scanner.close();
+        }
+    }
+}
